@@ -26,7 +26,19 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
     addEventListeners() {
-        // Change me!
+        this.removeAllEl.addEventListener("click", () => {
+            this.removeAll();
+        });
+
+        this.cartEl.addEventListener("click", e => {
+            if (e.target.classList.contains("remove") && e.target.dataset.itemId) {
+                this.removeItem(e.target.dataset.itemId);
+            }
+        });
+    }
+
+    getItemElement(id) {
+        return this.cartEl.querySelector(`li[data-item-id="${id}"]`);
     }
 
     /**
@@ -60,7 +72,13 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
     incrementItem(item) {
-        // Change me!
+        const el = this.getItemElement(item.id),
+            qty = Number(el.dataset.itemQty) + 1;
+
+        el.dataset.itemQty = qty;
+        el.dataset.itemTotal = qty * item.price;
+        el.querySelector("span.item-qty").innerHTML = qty;
+        el.querySelector("span.item-price").innerHTML = qty * item.price;
     }
 
     /**
@@ -69,7 +87,7 @@ export default class ShoppingCart {
      * @returns {boolean} - true if item is present in shopping cart, false otherwise
      */
     isItemInCart(id) {
-        // Change me!
+        return !!this.getItemElement(id);
     }
 
     /**
@@ -77,7 +95,7 @@ export default class ShoppingCart {
      * @returns {boolean} true if there's no items in cart, false otherwise
      */
     isCartEmpty() {
-        // Change me!
+        return !this.cartEl.querySelectorAll("li[data-item-id]").length;
     }
 
     /**
@@ -85,7 +103,8 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
     removeAll() {
-        // Change me!
+        this.cartEl.innerHTML = "";
+        this.updateCartState();
     }
 
     /**
@@ -94,7 +113,8 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
     removeItem(id) {
-        // Change me!
+        this.getItemElement(id).remove();
+        this.updateCartState();
     }
 
     /**
@@ -112,7 +132,7 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
     updateTotal() {
-        // Change me!
+        this.totalEl.innerHTML = this.getTotalSum();
     }
 
     /**
@@ -120,7 +140,8 @@ export default class ShoppingCart {
      * @returns {number} Total sum
      */
     getTotalSum() {
-        // Change me!
+        const items = this.cartEl.querySelectorAll("li[data-item-id]");
+        return [...items].reduce((acc, item) => acc + Number(item.dataset.itemTotal), 0);
     }
 
     /**
@@ -129,9 +150,9 @@ export default class ShoppingCart {
      */
     updateNoItemsMessage() {
         if (this.isCartEmpty()) {
-            // Change me!
+            this.emptyCartEl.classList.remove("d-none");
         } else {
-            // Change me!
+            this.emptyCartEl.classList.add("d-none");
         }
     }
 
@@ -140,6 +161,10 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
     updateRemoveAllButton() {
-        // Change me!
+        if (this.isCartEmpty()) {
+            this.removeAllEl.classList.add("d-none");
+        } else {
+            this.removeAllEl.classList.remove("d-none");
+        }
     }
 }
