@@ -1,15 +1,14 @@
 
 export default class EnhancedSet extends Set {
+  union(s) {}
 
-    union(s) {}
+  intersection(s) {}
 
-    intersection(s) {}
+  difference(s) {}
 
-    difference(s) {}
+  symmetricDifference(s) {}
 
-    symmetricDifference(s) {}
+  isSuperset(s) {}
 
-    isSuperset(s) {}
-
-    isSubset(s) {}
+  isSubset(s) {}
 }

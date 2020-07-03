@@ -1,8 +1,8 @@
-import phones from "./phones.json";
-import ShoppingCart from "./task-4.js";
+import phones from './phones.json';
+import ShoppingCart from './task-4.js';
 
 function getItemHtml(item) {
-    return `
+  return `
         <li>
             <div class="picture">
                 <img src="${item.imageUrl}" />
@@ -17,16 +17,16 @@ function getItemHtml(item) {
 }
 
 function getItemById(id) {
-    return phones.find(item => item.id === id);
+  return phones.find(item => item.id === id);
 }
 
-const phonesHtml = phones.map(getItemHtml).join(""),
-    itemList = document.querySelector(".item-list"),
-    cart = new ShoppingCart(document.getElementById("task4"));
+const phonesHtml = phones.map(getItemHtml).join('');
+const itemList = document.querySelector('.item-list');
+const cart = new ShoppingCart(document.getElementById('task4'));
 
 itemList.innerHTML = `<ul>${phonesHtml}</ul>`;
-itemList.addEventListener("click", e => {
-    if (e.target.tagName === "BUTTON") {
-        cart.addItem(getItemById(e.target.dataset.itemId));
-    }
+itemList.addEventListener('click', e => {
+  if (e.target.tagName === 'BUTTON') {
+    cart.addItem(getItemById(e.target.dataset.itemId));
+  }
 });

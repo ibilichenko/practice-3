@@ -1,21 +1,23 @@
 
-const NORTH = "north",
-    EAST = "east",
-    SOUTH = "south",
-    WEST = "west";
+const NORTH = 'north';
+const EAST = 'east';
+const SOUTH = 'south';
+const WEST = 'west';
 
 class Rover {
-    constructor(x = 0, y = 0, direction = NORTH) {}
+  // TODO delete disable rule line after implementation
+  // eslint-disable-next-line no-useless-constructor
+  constructor(x = 0, y = 0, direction = NORTH) {}
 
-    left() {}
+  left() {}
 
-    right() {}
+  right() {}
 
-    move(n) {}
+  move(n) {}
 
-    getPosition() {}
+  getPosition() {}
 
-    getDirection() {}
+  getDirection() {}
 }
 
 export { NORTH, EAST, SOUTH, WEST, Rover };

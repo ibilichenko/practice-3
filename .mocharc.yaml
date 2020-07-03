@@ -1,0 +1,6 @@
+recursive: true
+reporter: 'nyan'
+require: 
+  - '@babel/register'
+  - 'test/jsdom.js'
+  - 'reify'

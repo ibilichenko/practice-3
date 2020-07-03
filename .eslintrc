@@ -1,7 +1,7 @@
 {
-  "extends": "eslint",
+  "extends": "standard",
   "env": {
-    "es6": true,
+    "es2020": true,
     "browser": true,
     "mocha": true,
     "node": true
@@ -10,13 +10,15 @@
     "sourceType": "module"
   },
   "rules": {
+    "lines-around-comment": "off",
+    "newline-before-return": "error",
+    "no-confusing-arrow": "off",
     "no-console": "off",
     "no-debugger": "off",
-    "require-jsdoc": "off",
-    "lines-around-comment": "off",
-    "newline-after-var": "off",
     "no-undefined": "off",
-    "no-confusing-arrow": "off",
+    "require-jsdoc": "off",
+    "semi": "off",
+    "space-before-function-paren": "off",
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "no-trailing-spaces": ["error", { "skipBlankLines": true }]
   }
