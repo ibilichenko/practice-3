@@ -1,14 +1,39 @@
 
 export default class EnhancedSet extends Set {
-  union(s) {}
+  union(s) {
+    return new EnhancedSet([...this, ...s]);
+  }
 
-  intersection(s) {}
+  intersection(s) {
+    return new EnhancedSet([...this].filter(value => s.has(value)))
+  }
 
-  difference(s) {}
+  difference(s) {
+    return new EnhancedSet([...this].filter(value => !s.has(value)))
+  }
 
-  symmetricDifference(s) {}
+  symmetricDifference(s) {
+    if ([...s].length === 0) {
+      return this;
+    }
+    if ([...this].length === 0) {
+      return s;
+    }
+    this.forEach(element => {
+      if (s.has(element)) {
+        this.delete(element)
+        s.delete(element)
+      }
+    })
 
-  isSuperset(s) {}
+    return new EnhancedSet([...this, ...s])
+  }
 
-  isSubset(s) {}
+  isSuperset(s) {
+    return [...s].every(value => this.has(value))
+  }
+
+  isSubset(s) {
+    return [...this].every(value => s.has(value))
+  }
 }
