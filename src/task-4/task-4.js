@@ -1,3 +1,5 @@
+// import { remove, bind } from "lodash";
+
 function renderCartItem(item) {
   return `
     <li data-item-id="${item.id}" data-item-qty="1" data-item-price="${item.price}" data-item-total="${item.price}">
@@ -26,7 +28,12 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
   addEventListeners() {
-    // Change me!
+    this.removeAllEl.addEventListener('click', this.removeAll.bind(this));
+
+    this.cartEl.addEventListener('click', (e) => {
+      const targetElId = e.target.parentElement.parentElement.dataset.itemId;
+      this.removeItem(targetElId)
+    });
   }
 
   /**
@@ -60,7 +67,15 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
   incrementItem(item) {
-    // Change me!
+    const allLi = this.cartEl.children;
+    for (const li of allLi) {
+      if (li.dataset.itemId) {
+        li.dataset.itemQty++;
+        li.dataset.itemTotal = li.dataset.itemPrice * li.dataset.itemQty;
+        li.querySelector('.item-qty').textContent = li.dataset.itemQty;
+        li.querySelector('.item-price').textContent = li.dataset.itemTotal;
+      }
+    }
   }
 
   /**
@@ -69,7 +84,14 @@ export default class ShoppingCart {
      * @returns {boolean} - true if item is present in shopping cart, false otherwise
      */
   isItemInCart(id) {
-    // Change me!
+    let flag = false;
+    for (const li of this.cartEl.children) {
+      if (li.dataset.itemId === id) {
+        flag = true;
+      }
+    }
+    
+    return flag;
   }
 
   /**
@@ -77,7 +99,9 @@ export default class ShoppingCart {
      * @returns {boolean} true if there's no items in cart, false otherwise
      */
   isCartEmpty() {
-    // Change me!
+    if (this.cartEl.children.length === 0) {
+      return true;
+    } else return false;
   }
 
   /**
@@ -85,16 +109,23 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
   removeAll() {
-    // Change me!
+    this.cartEl.innerHTML = ''
+    
+    this.updateCartState();
   }
 
   /**
      * Removes item from a list
      * @param {string} id - ID of and item to remove
      * @returns {undefined}
-     */
+    */
   removeItem(id) {
-    // Change me!
+    for (const li of this.cartEl.children) {
+      if (li.dataset.itemId === id) {
+        li.remove()
+      }
+    }
+    this.updateCartState();
   }
 
   /**
@@ -112,7 +143,7 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
   updateTotal() {
-    // Change me!
+    this.totalEl.textContent = this.getTotalSum();
   }
 
   /**
@@ -120,7 +151,12 @@ export default class ShoppingCart {
      * @returns {number} Total sum
      */
   getTotalSum() {
-    // Change me!
+    let totalSum = 0;
+    for (const li of this.cartEl.children) {
+      totalSum += Number(li.dataset.itemTotal);
+    }
+
+    return totalSum;
   }
 
   /**
@@ -129,9 +165,9 @@ export default class ShoppingCart {
      */
   updateNoItemsMessage() {
     if (this.isCartEmpty()) {
-      // Change me!
+      this.emptyCartEl.classList.remove('d-none');
     } else {
-      // Change me!
+      this.emptyCartEl.classList.add('d-none');
     }
   }
 
@@ -140,6 +176,10 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
   updateRemoveAllButton() {
-    // Change me!
+    if (this.isCartEmpty()) {
+      this.removeAllEl.classList.add('d-none');
+    } else {
+      this.removeAllEl.classList.remove('d-none')
+    }
   }
 }
