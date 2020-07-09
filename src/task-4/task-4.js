@@ -67,12 +67,15 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
   incrementItem(item) {
-    console.log(item)
-    const elementToIncrement = document.querySelector(`li[data-item-id=${item.id}]`);
-    elementToIncrement.dataset.itemQty++;
-    elementToIncrement.dataset.itemTotal = elementToIncrement.dataset.itemPrice * elementToIncrement.dataset.itemQty;
-    elementToIncrement.querySelector('.item-qty').textContent = elementToIncrement.dataset.itemQty;
-    elementToIncrement.querySelector('.item-price').textContent = elementToIncrement.dataset.itemTotal;
+    const allLi = this.cartEl.children;
+    for (const li of allLi) {
+      if (li.dataset.itemId) {
+        li.dataset.itemQty++;
+        li.dataset.itemTotal = li.dataset.itemPrice * li.dataset.itemQty;
+        li.querySelector('.item-qty').textContent = li.dataset.itemQty;
+        li.querySelector('.item-price').textContent = li.dataset.itemTotal;
+      }
+    }
   }
 
   /**
@@ -106,8 +109,7 @@ export default class ShoppingCart {
      * @returns {undefined}
      */
   removeAll() {
-    const toRemove = document.querySelector('.shopping-cart-list');
-    toRemove.innerHTML = ''
+    this.cartEl.innerHTML = ''
     
     this.updateCartState();
   }
@@ -118,7 +120,11 @@ export default class ShoppingCart {
      * @returns {undefined}
     */
   removeItem(id) {
-    document.querySelector(`li[data-item-id=${id}]`).remove()
+    for (const li of this.cartEl.children) {
+      if (li.dataset.itemId === id) {
+        li.remove()
+      }
+    }
     this.updateCartState();
   }
 

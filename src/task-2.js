@@ -13,20 +13,18 @@ export default class EnhancedSet extends Set {
   }
 
   symmetricDifference(s) {
-    if ([...s].length === 0) {
-      return this;
-    }
-    if ([...this].length === 0) {
-      return s;
-    }
-    this.forEach(element => {
-      if (s.has(element)) {
-        this.delete(element)
-        s.delete(element)
+    const copy1 = new EnhancedSet([...this]);
+    const copy2 = new EnhancedSet([...s]);
+    copy1.forEach(element => {
+      if (copy2.has(element)) {
+        copy1.delete(element)
+        copy2.delete(element)
       }
     })
-
-    return new EnhancedSet([...this, ...s])
+  
+    return new EnhancedSet([...copy1, ...copy2])
+    // or
+    // return this.difference(s).union(s.difference(this));
   }
 
   isSuperset(s) {
@@ -34,6 +32,6 @@ export default class EnhancedSet extends Set {
   }
 
   isSubset(s) {
-    return [...this].every(value => s.has(value))
+    return [...this].every(value => s.has(value));
   }
 }
