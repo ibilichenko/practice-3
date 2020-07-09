@@ -1,25 +1,58 @@
 
 export default function filterTable(tbody, filters) {
   const table = tbody.children;
-  for (const row of table) {
+  deleteClasses(table);
+  filter(table, filters);
+  updateNumeration(table)
+  updateStrips(table)
+}
+
+function deleteClasses(tableElements) {
+  for (const row of tableElements) {
     row.classList.remove('d-none', 'table-row-even')
   }
-  let numberingCounter = 1;
-  for (const row of table) {
+}
+
+function filter(elements, filters) {
+  for (const el of elements) {
     let counter = 0;
     for (const [key, value] of Object.entries(filters)) {
-      if (row.querySelector(`td[data-field-name=${key}]`) && row.textContent.includes(value)) {
+      const wantedEl = el.querySelector(`td[data-field-name=${key}]`);
+      if (wantedEl && wantedEl.textContent.includes(value)) {
         counter++;
       }
     }
     if (counter !== Object.keys(filters).length) {
-      row.classList.add('d-none')
-    } else {
-      row.firstElementChild.textContent = numberingCounter;
-      if (numberingCounter % 2 === 0) {
-        row.classList.add('table-row-even')
-      }
-      numberingCounter++;
+      el.classList.add('d-none')
     }
+  }
+}
+
+function updateNumeration(elements) {
+  let numerationCounter = 1;
+  for (const element of elements) {
+    if (!element.classList.contains('d-none')) {
+      element.firstElementChild.textContent = numerationCounter;
+      numerationCounter++;
+    }
+  }
+}
+function getVisibleElements(elements) {
+  const visibleEl = []
+  for (const el of elements) {
+    if (!el.classList.contains('d-none')) {
+      visibleEl.push(el);
+    }
+  }
+
+  return visibleEl
+}
+function updateStrips(elements) {
+  let counter = 1;
+  for (const element of getVisibleElements(elements)) {
+    if (counter % 2 === 0) {
+      element.classList.add('table-row-even')
+    }
+    counter++;
   }
 }
